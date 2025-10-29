@@ -21,20 +21,7 @@ header a {
 
 /* Main content */
 main {
-    display: flex;
-    flex-wrap: wrap; 
-    padding: 20px;
-    gap: 20px;
-}
-
-main img {
-    max-width: 100%;
-    height: auto;
-    flex: 1 1 200px; 
-}
-
-main div.text-content {
-    flex: 2 1 300px; 
+    padding: 10px;
 }
 
 /* Footer */
@@ -43,4 +30,43 @@ footer {
     padding: 15px;
     background-color: #f0f0f0;
     margin-top: 20px;
+}
+
+/* Result container */
+.result-container {
+    display: flex;
+    flex-direction: row; 
+    justify-content: center; 
+    align-items: stretch; 
+    gap: 20px; 
+    flex-wrap: nowrap;
+}
+
+.left-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    padding: 0;
+    margin: 0;
+}
+
+.right-column {
+    flex: 2;
+    display: flex;
+    justify-content: center; 
+    padding: 0;
+    margin: 0;
+}
+
+.left-column img, .right-column img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+#result-text {
+    font-size: x-large;
 }

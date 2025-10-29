@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <title>Santeri Isotalo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <button onclick="location.href='index.html'">Home</button>
+        </div>
+        <div class="header-right">
+            <a href="project1.html">Eurojackpot-simulaatio</a> |
+            <a href="#">Välilehti 2</a> |
+            <a href="#">Välilehti 3</a> |
+            <a href="#">Välilehti 4</a>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <div class="result-container">
+            <!-- Left column: text+img -->
+            <div class="left-column">
+                <p id="result-text"></p>
+                <img id="result-image" src="" alt="Current result">
+            </div>
+
+            <!-- Right column: graph -->
+            <div class="right-column">
+                <img src="projects/project_1_eurojackpot/toteutuneet_vs_simulaatio.png" alt="Hannu Hanhi graafi">
+            </div>
+        </div>
+
+        <div class="simulation-details">
+            <h3>Näytä miten simulaatio on suoritettu</h3>
+            <button id="show-details-button">Avaa</button>
+            
+            <div id="details-content">
+            </div>
+        </div>
+        
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        fetch('projects/project_1_eurojackpot/result.txt')
+            .then(response => {
+                if (!response.ok) throw new Error('HTTP error ' + response.status);
+                return response.text();
+            })
+            .then(text => {
+                const result = text.trim();
+                const img = document.getElementById('result-image');
+                const p = document.getElementById('result-text');
+
+                if (result === 'Aku Ankka') {
+                    img.src = 'projects/project_1_eurojackpot/donald_duck.png';
+                    p.textContent = 'KÄÄK! Menee huonommin kuin odottaa saattaa.';
+                } else if (result === 'Hannu Hanhi') {
+                    img.src = 'projects/project_1_eurojackpot/gladstone_gander.png';
+                    p.textContent = '🍀Menee paremmin kuin voisi odottaa!🍀';
+                } else {
+                    img.src = 'projects/project_1_eurojackpot/donald_duck.png';
+                    p.textContent = 'Koodi solmussa, korjaa se.';
+                }
+            })
+            .catch(err => {
+                console.error('Virhe ladattaessa result.txt:', err);
+                document.getElementById('result-text').textContent = 'Tiedoston lukeminen epäonnistui.';
+            });
+
+        document.getElementById('show-details-button').addEventListener('click', function() {
+
+        // Button
+        const contentContainer = document.getElementById('details-content');
+        const button = this;
+
+        button.disabled = true;
+
+        fetch('projects/project_1_eurojackpot/Eurojackpot.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Tiedostoa tiedosto.html ei löytynyt tai lataus epäonnistui.');
+                }
+                return response.text();
+            })
+            .then(htmlContent => {
+                
+                contentContainer.innerHTML = htmlContent;
+                button.textContent = 'Tiedot ladattu';
+                
+                button.style.display = 'none'; 
+            })
+            .catch(error => {
+                console.error('Latausvirhe:', error);
+                contentContainer.innerHTML = '<p style="color: red;">Virhe ladatessa tiedostoa: ' + error.message + '</p>';
+                button.textContent = 'Virhe! Yritä uudelleen';
+                button.disabled = false;
+            });
+    });
+    </script>
+
+    <!-- Footer -->
+    <footer>
+        <p>© Santeri Isotalo</p>
+    </footer>
+
+</body>
+</html>
